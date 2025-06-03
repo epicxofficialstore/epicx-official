@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Buy MLBB Diamonds - EpicX</title>
+  <script>
+    (function () {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+  <style>
+    :root {
+      --bg-light: #ffffff;
+      --bg-dark: #121212;
+      --text-light: #000000;
+      --text-dark: #ffffff;
+      --accent: #00f7ff;
+      --highlight: gold;
+      --button-bg: #00c853;
+      --button-bg-hover: #00b347;
+    }
+;
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.3s, color 0.3s;
+      min-height: 100vh;
+    }
+
+    .dark body {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    h1 {
+      color: var(--highlight);
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: var(--accent);
+      margin: 10px 0;
+    }
+
+    select, input {
+      width: 100%;
+      max-width: 320px;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      color: #000;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .dark select, .dark input {
+      background-color: #1e1e1e;
+      color: #fff;
+      border: 1px solid #555;
+    }
+
+    #qrCode {
+      width: 200px;
+      height: 200px;
+      margin: 20px 0;
+      border-radius: 10px;
+      background: white;
+      padding: 10px;
+    }
+
+    .dark #qrCode {
+      background: #fff;
+    }
+
+    .instructions {
+      max-width: 400px;
+      text-align: center;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+      color: inherit;
+    }
+
+    button {
+      width: 100%;
+      max-width: 320px;
+      padding: 12px;
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: var(--button-bg-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Buy MLBB Diamonds</h1>
+  <h3 id="priceDisplay">Price: ₹135</h3>
+
+  <select id="categorySelect" onchange="updatePackages()">
+    <option value="weekly">💎 𝗪𝗘𝗘𝗞𝗟𝗬 𝗣𝗔𝗦𝗦</option>
+    <option value="first">💎 𝗙𝗶𝗿𝘀𝘁 𝗧𝗼𝗽-𝗨𝗽</option>
+    <option value="small">💎 𝗦𝗺𝗮𝗹𝗹 𝗣𝗮𝗰𝗸</option>
+    <option value="large">💎 𝗟𝗮𝗿𝗴𝗲 𝗣𝗮𝗰𝗸</option>
+  </select>
+
+  <select id="packageSelect" onchange="updatePrice()"></select>
+
+  <img id="qrCode" src="" alt="QR Code" />
+
+  <div class="instructions">
+    <p>1. Scan the QR code above to pay the exact amount.</p>
+    <p>2. Take a screenshot of your payment confirmation.</p>
+    <p>3. Fill your MLBB ID and Zone ID below and click CONFIRM.</p>
+  </div>
+
+  <input type="text" id="mlbbId" placeholder="Enter your MLBB ID" />
+  <input type="text" id="zoneId" placeholder="Enter your Zone ID" />
+  <button onclick="sendData()">CONFIRM</button>
+
+  <script>
+    const packages = {
+      weekly: [
+        ["1x Weekly Pass – ₹135", 135],
+        ["2x Weekly Pass – ₹260", 260],
+        ["3x Weekly Pass – ₹385", 385],
+        ["4x Weekly Pass – ₹510", 510],
+        ["5x Weekly Pass – ₹635", 635],
+        ["1x Weekly Pass+172💎 – ₹348", 348],
+        ["2X Weekly Pass+706💎 – ₹1198", 1198],
+        ["Twilight Pass – ₹688", 688]
+      ],
+      first: [
+        ["100 💎(50+50) – ₹75", 75],
+        ["300 💎(150+150) – ₹215", 215],
+        ["500 💎(250+250) – ₹335", 335],
+        ["1000 💎(500+500) – ₹660", 660]
+      ],
+      small: [
+        ["3💎 – ₹10", 10],
+        ["5💎 – ₹15", 15],
+        ["11💎 – ₹25", 25],
+        ["14💎 – ₹30", 30],
+        ["22💎 – ₹45", 45],
+        ["28💎 – ₹55", 55],
+        ["42💎 – ₹75", 75]
+      ],
+      large: [
+        ["55💎 – ₹80", 80],
+        ["86💎 – ₹115", 115],
+        ["110💎 – ₹150", 150],
+        ["165💎 – ₹215", 215],
+        ["172💎 – ₹220", 220],
+        ["257💎 – ₹325", 325],
+        ["275💎 – ₹335", 335],
+        ["343💎 – ₹430", 430],
+        ["429💎 – ₹535", 535],
+        ["514💎 – ₹630", 630],
+        ["565💎 – ₹675", 675],
+        ["706💎 – ₹855", 855],
+        ["963💎 – ₹1190", 1190],
+        ["1049💎 – ₹1290", 1290],
+        ["1130💎 – ₹1370", 1370],
+        ["1220💎 – ₹1475", 1475],
+        ["1412💎 – ₹1750", 1750]
+      ]
+    };
+
+    function updatePackages() {
+      const category = document.getElementById("categorySelect").value;
+      const packageSelect = document.getElementById("packageSelect");
+      packageSelect.innerHTML = "";
+      packages[category].forEach(([text, value]) => {
+        const option = document.createElement("option");
+        option.text = text;
+        option.value = value;
+        packageSelect.appendChild(option);
+      });
+      updatePrice();
+    }
+
+    function updatePrice() {
+      const select = document.getElementById('packageSelect');
+      const amount = select.value;
+      const displayText = select.options[select.selectedIndex].text;
+      document.getElementById('priceDisplay').innerText = "Price: ₹" + amount;
+
+      const upiUrl = `upi://pay?pa=bilachingman@oksbi&pn=EpicX%20Store&am=${amount}&cu=INR`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
+      document.getElementById('qrCode').src = qrUrl;
+    }
+
+    function sendData() {
+      const select = document.getElementById("packageSelect");
+      const category = document.getElementById("categorySelect");
+      const amount = select.value;
+      const plan = select.options[select.selectedIndex].text;
+      const categoryText = category.options[category.selectedIndex].text.replace("💎 ", "");
+      const mlbbId = document.getElementById("mlbbId").value.trim();
+      const zoneId = document.getElementById("zoneId").value.trim();
+
+      if (!mlbbId || !zoneId) {
+        alert("Please fill in both MLBB ID and Zone ID.");
+        return;
+      }
+
+      const message = `Hi, I have purchased this MLBB ${categoryText}: ${plan} (₹${amount})%0AID: ${mlbbId}%0AZone ID: ${zoneId}%0A𝗕𝗘𝗟𝗢𝗪 𝗜𝗦 𝗠𝗬 𝗣𝗔𝗬𝗠𝗘𝗡𝗧 𝗣𝗥𝗢𝗢𝗙:`;
+      window.open("https://wa.me/919863233972?text=" + message, "_blank")
+    }
+
+    window.onload = updatePackages;
+  </script>
+</body>
+</html>

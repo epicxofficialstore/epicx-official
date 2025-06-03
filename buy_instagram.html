@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Instagram Services Payment - EpicX</title>
+  <script>
+    (function () {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    .dark body {
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    h1 {
+      color: gold;
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin: 10px 0 20px;
+      text-align: center;
+      color: #00ffcc;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: inherit;
+    }
+
+    select, input {
+      width: 300px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      margin-top: 5px;
+      background-color: #f9f9f9;
+      color: #000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .dark select,
+    .dark input {
+      background-color: #1e1e1e;
+      color: #fff;
+      border: 1px solid #444;
+      box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+    }
+
+    #qrcode {
+      padding: 12px;
+      background: white;
+      margin: 25px 0;
+    }
+
+    .instructions {
+      max-width: 400px;
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      color: inherit;
+    }
+
+    button {
+      padding: 12px 24px;
+      background-color: #00c853;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 320px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #00b347;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Scan to Pay – Instagram Service</h1>
+
+  <label for="service">Select Service:</label>
+  <select id="service" onchange="updatePackages()">
+    <option value="Followers">👥 𝗙𝗢𝗟𝗟𝗢𝗪𝗘𝗥𝗦</option>
+    <option value="Likes">❤️ 𝗟𝗜𝗞𝗘𝗦</option>
+    <option value="Comments">💬 𝗖𝗢𝗠𝗠𝗘𝗡𝗧𝗦</option>
+    <option value="Shares">🔄 𝗦𝗛𝗔𝗥𝗘𝗦</option>
+    <option value="Views">👀 𝗩𝗜𝗘𝗪𝗦</option>
+  </select>
+
+  <label for="package">Select Package:</label>
+  <select id="package" onchange="updatePrice()"></select>
+
+  <h2 id="priceDisplay">Price: ₹0</h2>
+
+  <div id="qrcode"></div>
+
+  <div class="instructions">
+    <p>1. Scan the QR code above to pay the exact amount shown.</p>
+    <p>2. Take a screenshot of your payment confirmation.</p>
+    <p>3. Fill your Instagram Username and Post Link below and click CONFIRM.</p>
+  </div>
+
+  <label for="username">Instagram Username:</label>
+  <input type="text" id="username" placeholder="Enter your Instagram Username" required />
+
+  <label for="postLink">Post Link:</label>
+  <input type="text" id="postLink" placeholder="Enter your Post Link" required />
+
+  <button onclick="sendWhatsApp()">CONFIRM</button>
+
+  <script>
+    const upiID = "bilachingman-1@okaxis";
+    const upiName = "EpicX";
+
+    const servicePackages = {
+      "Followers": [
+        { qty: 50, price: 16 },
+        { qty: 100, price: 30 },
+        { qty: 200, price: 58 },
+        { qty: 500, price: 139 },
+        { qty: 1000, price: 269 },
+        { qty: 2000, price: 499 },
+        { qty: 5000, price: 1199 },
+        { qty: 10000, price: 2299 }
+      ],
+      "Likes": [
+        { qty: 100, price: 6 },
+        { qty: 200, price: 10 },
+        { qty: 500, price: 19 },
+        { qty: 1000, price: 29 },
+        { qty: 2000, price: 49 },
+        { qty: 5000, price: 99 },
+        { qty: 10000, price: 199 },
+        { qty: 20000, price: 349 },
+        { qty: 30000, price: 499 },
+        { qty: 50000, price: 749 },
+        { qty: 100000, price: 1299 }
+      ],
+      "Comments": [
+        { qty: 20, price: 5 },
+        { qty: 40, price: 10 },
+        { qty: 80, price: 20 },
+        { qty: 160, price: 40 },
+        { qty: 320, price: 80 },
+        { qty: 640, price: 160 },
+        { qty: 1200, price: 300 },
+        { qty: 2500, price: 625 },
+        { qty: 5000, price: 1250 },
+        { qty: 10000, price: 2500 }
+      ],
+      "Shares": [
+        { qty: 100, price: 6 },
+        { qty: 200, price: 10 },
+        { qty: 500, price: 19 },
+        { qty: 1000, price: 29 },
+        { qty: 2000, price: 49 },
+        { qty: 5000, price: 99 },
+        { qty: 10000, price: 199 },
+        { qty: 20000, price: 349 },
+        { qty: 30000, price: 499 },
+        { qty: 50000, price: 749 }
+      ],
+      "Views": [
+        { qty: 200, price: 6 },
+        { qty: 500, price: 10 },
+        { qty: 1000, price: 19 },
+        { qty: 2000, price: 29 },
+        { qty: 5000, price: 54 },
+        { qty: 10000, price: 99 },
+        { qty: 20000, price: 199 },
+        { qty: 30000, price: 299 },
+        { qty: 50000, price: 449 },
+        { qty: 100000, price: 749 }
+      ]
+    };
+
+    const serviceIcons = {
+      "Followers": "👥",
+      "Likes": "❤️",
+      "Comments": "💬",
+      "Shares": "🔄",
+      "Views": "👀"
+    };
+
+    function updatePackages() {
+      const service = document.getElementById("service").value;
+      const packageSelect = document.getElementById("package");
+      packageSelect.innerHTML = "";
+
+      servicePackages[service].forEach(pkg => {
+        const split = pkg.price > 2000;
+        const priceText = split ? `₹2000 + ₹${pkg.price - 2000}` : `₹${pkg.price}`;
+        const option = document.createElement("option");
+        option.value = JSON.stringify(pkg);
+        option.textContent = `${pkg.qty.toLocaleString()} ${serviceIcons[service]} - ${priceText}`;
+        packageSelect.appendChild(option);
+      });
+
+      updatePrice();
+    }
+
+    function updatePrice() {
+      const pkg = JSON.parse(document.getElementById("package").value);
+      const priceDisplay = document.getElementById("priceDisplay");
+      const qrDiv = document.getElementById("qrcode");
+
+      const split = pkg.price > 2000;
+      const upiAmount = split ? 2000 : pkg.price;
+      const priceText = split ? `₹2000 + ₹${pkg.price - 2000}` : `₹${pkg.price}`;
+
+      priceDisplay.textContent = `Price: ${priceText}`;
+      qrDiv.innerHTML = "";
+
+      const upiURL = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(upiName)}&am=${upiAmount}&cu=INR`;
+      new QRCode(qrDiv, {
+        text: upiURL,
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    function sendWhatsApp() {
+      const username = document.getElementById("username").value.trim();
+      const postLink = document.getElementById("postLink").value.trim();
+      if (!username || !postLink) {
+        alert("Please fill in both fields.");
+        return;
+      }
+
+      const service = document.getElementById("service").value;
+      const pkg = JSON.parse(document.getElementById("package").value);
+      const split = pkg.price > 2000;
+      const priceText = split ? `₹2000 + ₹${pkg.price - 2000}` : `₹${pkg.price}`;
+
+      const message = `Hello,%0A%0AI have successfully purchased ✅ *${pkg.qty.toLocaleString()} ${service}* ${serviceIcons[service]} ✅ for ${priceText} from your website.%0A%0AHere are my details:%0A• Instagram Username: ${username}%0A• Post Link: ${postLink}%0A%0A𝗜 𝗵𝗮𝘃𝗲 𝗮𝘁𝘁𝗮𝗰𝗵𝗲𝗱 𝘁𝗵𝗲 𝗽𝗮𝘆𝗺𝗲𝗻𝘁 𝘀𝗰𝗿𝗲𝗲𝗻𝘀𝗵𝗼𝘁 𝗯𝗲𝗹𝗼𝘄. 𝗞𝗶𝗻𝗱𝗹𝘆 𝗽𝗿𝗼𝗰𝗲𝘀𝘀 𝗺𝘆 𝗼𝗿𝗱𝗲𝗿 𝗮𝘁 𝘁𝗵𝗲 𝗲𝗮𝗿𝗹𝗶𝗲𝘀𝘁..%0A%0AThank you.`;
+      const whatsappURL = `https://wa.me/919863233972?text=${message}`;
+      window.open(whatsappURL, "_blank");
+    }
+
+    updatePackages();
+  </script>
+</body>
+</html>
