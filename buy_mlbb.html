@@ -25,11 +25,9 @@
       --button-bg: #00c853;
       --button-bg-hover: #00b347;
     }
-;
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       padding: 20px;
@@ -42,25 +40,21 @@
       transition: background-color 0.3s, color 0.3s;
       min-height: 100vh;
     }
-
     .dark body {
       background-color: var(--bg-dark);
       color: var(--text-dark);
     }
-
     h1 {
       color: var(--highlight);
       text-align: center;
       font-size: 28px;
       margin-bottom: 5px;
     }
-
     h2, h3 {
       text-align: center;
       color: var(--accent);
       margin: 10px 0;
     }
-
     select, input {
       width: 100%;
       max-width: 320px;
@@ -73,13 +67,11 @@
       font-size: 16px;
       transition: all 0.3s ease;
     }
-
     .dark select, .dark input {
       background-color: #1e1e1e;
       color: #fff;
       border: 1px solid #555;
     }
-
     #qrCode {
       width: 200px;
       height: 200px;
@@ -88,11 +80,9 @@
       background: white;
       padding: 10px;
     }
-
     .dark #qrCode {
       background: #fff;
     }
-
     .instructions {
       max-width: 400px;
       text-align: center;
@@ -101,7 +91,6 @@
       margin-bottom: 15px;
       color: inherit;
     }
-
     button {
       width: 100%;
       max-width: 320px;
@@ -115,7 +104,6 @@
       margin-top: 10px;
       transition: background-color 0.3s;
     }
-
     button:hover {
       background-color: var(--button-bg-hover);
     }
@@ -140,11 +128,12 @@
   <div class="instructions">
     <p>1. Scan the QR code above to pay the exact amount.</p>
     <p>2. Take a screenshot of your payment confirmation.</p>
-    <p>3. Fill your MLBB ID and Zone ID below and click CONFIRM.</p>
+    <p>3. Fill your MLBB ID, ZONE ID and upload a Payment screenshot below and click CONFIRM.</p>
   </div>
 
   <input type="text" id="mlbbId" placeholder="Enter your MLBB ID" />
   <input type="text" id="zoneId" placeholder="Enter your Zone ID" />
+  <input type="file" id="paymentScreenshot" accept="image/*" />
   <button onclick="sendData()">CONFIRM</button>
 
   <script>
@@ -211,15 +200,13 @@
     function updatePrice() {
       const select = document.getElementById('packageSelect');
       const amount = select.value;
-      const displayText = select.options[select.selectedIndex].text;
-      document.getElementById('priceDisplay').innerText = "Price: ₹" + amount;
-
       const upiUrl = `upi://pay?pa=bilachingman@oksbi&pn=EpicX%20Store&am=${amount}&cu=INR`;
       const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
       document.getElementById('qrCode').src = qrUrl;
+      document.getElementById('priceDisplay').innerText = "Price: ₹" + amount;
     }
 
-    function sendData() {
+    async function sendData() {
       const select = document.getElementById("packageSelect");
       const category = document.getElementById("categorySelect");
       const amount = select.value;
@@ -227,14 +214,43 @@
       const categoryText = category.options[category.selectedIndex].text.replace("💎 ", "");
       const mlbbId = document.getElementById("mlbbId").value.trim();
       const zoneId = document.getElementById("zoneId").value.trim();
+      const fileInput = document.getElementById("paymentScreenshot");
 
-      if (!mlbbId || !zoneId) {
-        alert("Please fill in both MLBB ID and Zone ID.");
+      if (!mlbbId || !zoneId || fileInput.files.length === 0) {
+        alert("Please fill MLBB ID, Zone ID and upload screenshot.");
         return;
       }
 
-      const message = `Hi, I have purchased this MLBB ${categoryText}: ${plan} (₹${amount})%0AID: ${mlbbId}%0AZone ID: ${zoneId}%0A𝗕𝗘𝗟𝗢𝗪 𝗜𝗦 𝗠𝗬 𝗣𝗔𝗬𝗠𝗘𝗡𝗧 𝗣𝗥𝗢𝗢𝗙:`;
-      window.open("https://wa.me/919863233972?text=" + message, "_blank")
+      const file = fileInput.files[0];
+
+      const botToken = "8087900838:AAHILt-MC_CAYYIaTEzBqEoS8G50rrpP1V8";
+      const chatId = "7325699012";
+
+      const caption = `🛒 *New MLBB Purchase*\n\n📦 Category: ${categoryText}\n💎 Plan: ${plan} (₹${amount})\n🆔 MLBB ID: ${mlbbId}\n🌐 Zone ID: ${zoneId}`;
+
+      const formData = new FormData();
+      formData.append("chat_id", chatId);
+      formData.append("caption", caption);
+      formData.append("photo", file);
+      formData.append("parse_mode", "Markdown");
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+          method: "POST",
+          body: formData
+        });
+        const result = await res.json();
+        if (result.ok) {
+          alert("✅ Order received! We'll process it shortly.");
+          window.location.reload();
+        } else {
+          alert("❌ Failed to send. Please try again.");
+          console.error(result);
+        }
+      } catch (error) {
+        alert("❌ Error occurred. Check console.");
+        console.error(error);
+      }
     }
 
     window.onload = updatePackages;
