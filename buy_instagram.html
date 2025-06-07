@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Instagram Services Payment - EpicX</title>
+  <title>Instagram Services - EpicX</title>
   <script>
     (function () {
       const theme = localStorage.getItem('theme');
@@ -14,275 +14,270 @@
       }
     })();
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
+    :root {
+      --bg-light: #ffffff;
+      --bg-dark: #121212;
+      --text-light: #000000;
+      --text-dark: #ffffff;
+      --accent: #00f7ff;
+      --highlight: gold;
+      --button-bg: #00c853;
+      --button-bg-hover: #00b347;
+    }
+
     * {
       box-sizing: border-box;
     }
 
     body {
       margin: 0;
+      padding: 20px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
       min-height: 100vh;
       transition: background-color 0.3s, color 0.3s;
     }
 
-    body {
-      background-color: #ffffff;
-      color: #000000;
-    }
-
     .dark body {
-      background-color: #121212;
-      color: #ffffff;
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
     }
 
     h1 {
-      color: gold;
+      color: var(--highlight);
       font-size: 28px;
-      margin-bottom: 10px;
       text-align: center;
+      margin-bottom: 5px;
     }
 
-    h2 {
-      font-size: 22px;
-      margin: 10px 0 20px;
+    h3 {
+      color: var(--accent);
       text-align: center;
-      color: #00ffcc;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-      color: inherit;
+      margin: 10px 0;
     }
 
     select, input {
-      width: 300px;
+      width: 100%;
+      max-width: 320px;
       padding: 10px;
+      margin-top: 10px;
       border-radius: 8px;
       border: 1px solid #ccc;
-      font-size: 16px;
-      margin-top: 5px;
       background-color: #f9f9f9;
       color: #000;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
+      font-size: 16px;
     }
 
-    .dark select,
-    .dark input {
+    .dark select, .dark input {
       background-color: #1e1e1e;
       color: #fff;
-      border: 1px solid #444;
-      box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+      border: 1px solid #555;
     }
 
-    #qrcode {
-      padding: 12px;
+    #qrCode {
+      width: 200px;
+      height: 200px;
+      margin: 20px 0;
+      border-radius: 10px;
       background: white;
-      margin: 25px 0;
+      padding: 10px;
+    }
+
+    .dark #qrCode {
+      background: #fff;
     }
 
     .instructions {
       max-width: 400px;
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.5;
-      margin-bottom: 20px;
-      color: inherit;
+      margin-bottom: 15px;
     }
 
     button {
-      padding: 12px 24px;
-      background-color: #00c853;
+      width: 100%;
+      max-width: 320px;
+      padding: 12px;
+      background-color: var(--button-bg);
       color: white;
       border: none;
       border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
       margin-top: 10px;
-      width: 320px;
       transition: background-color 0.3s;
     }
 
     button:hover {
-      background-color: #00b347;
+      background-color: var(--button-bg-hover);
     }
   </style>
 </head>
 <body>
+  <h1>Buy Instagram Services</h1>
+  <h3 id="priceDisplay">Price: ₹30</h3>
 
-  <h1>Scan to Pay – Instagram Service</h1>
-
-  <label for="service">Select Service:</label>
-  <select id="service" onchange="updatePackages()">
-    <option value="Followers">👥 𝗙𝗢𝗟𝗟𝗢𝗪𝗘𝗥𝗦</option>
-    <option value="Likes">❤️ 𝗟𝗜𝗞𝗘𝗦</option>
-    <option value="Comments">💬 𝗖𝗢𝗠𝗠𝗘𝗡𝗧𝗦</option>
-    <option value="Shares">🔄 𝗦𝗛𝗔𝗥𝗘𝗦</option>
-    <option value="Views">👀 𝗩𝗜𝗘𝗪𝗦</option>
+  <select id="categorySelect" onchange="updatePackages()">
+    <option value="followers">👥 Followers</option>
+    <option value="likes">❤️ Likes</option>
+    <option value="comments">💬 Comments</option>
+    <option value="shares">🔄 Shares</option>
+    <option value="views">👀 Views</option>
   </select>
 
-  <label for="package">Select Package:</label>
-  <select id="package" onchange="updatePrice()"></select>
+  <select id="packageSelect" onchange="updatePrice()"></select>
 
-  <h2 id="priceDisplay">Price: ₹0</h2>
-
-  <div id="qrcode"></div>
+  <img id="qrCode" src="" alt="QR Code" />
 
   <div class="instructions">
-    <p>1. Scan the QR code above to pay the exact amount shown.</p>
+    <p>1. Scan the QR code above to pay the exact amount.</p>
     <p>2. Take a screenshot of your payment confirmation.</p>
-    <p>3. Fill your Instagram Username and Post Link below and click CONFIRM.</p>
+    <p>3. Fill your Instagram Username, Post Link  and upload a Payment screenshot below and click CONFIRM.</p>
   </div>
 
-  <label for="username">Instagram Username:</label>
-  <input type="text" id="username" placeholder="Enter your Instagram Username" required />
-
-  <label for="postLink">Post Link:</label>
-  <input type="text" id="postLink" placeholder="Enter your Post Link" required />
-
-  <button onclick="sendWhatsApp()">CONFIRM</button>
+  <input type="text" id="username" placeholder="Instagram Username" />
+  <input type="text" id="postLink" placeholder="Post Link (optional)" />
+  <input type="file" id="paymentScreenshot" accept="image/*" />
+  <button onclick="sendData()">CONFIRM</button>
 
   <script>
-    const upiID = "bilachingman-1@okaxis";
-    const upiName = "EpicX";
-
-    const servicePackages = {
-      "Followers": [
-        { qty: 50, price: 16 },
-        { qty: 100, price: 30 },
-        { qty: 200, price: 58 },
-        { qty: 500, price: 139 },
-        { qty: 1000, price: 269 },
-        { qty: 2000, price: 499 },
-        { qty: 5000, price: 1199 },
-        { qty: 10000, price: 2299 }
-      ],
-      "Likes": [
-        { qty: 100, price: 6 },
-        { qty: 200, price: 10 },
-        { qty: 500, price: 19 },
-        { qty: 1000, price: 29 },
-        { qty: 2000, price: 49 },
-        { qty: 5000, price: 99 },
-        { qty: 10000, price: 199 },
-        { qty: 20000, price: 349 },
-        { qty: 30000, price: 499 },
-        { qty: 50000, price: 749 },
-        { qty: 100000, price: 1299 }
-      ],
-      "Comments": [
-        { qty: 20, price: 5 },
-        { qty: 40, price: 10 },
-        { qty: 80, price: 20 },
-        { qty: 160, price: 40 },
-        { qty: 320, price: 80 },
-        { qty: 640, price: 160 },
-        { qty: 1200, price: 300 },
-        { qty: 2500, price: 625 },
-        { qty: 5000, price: 1250 },
-        { qty: 10000, price: 2500 }
-      ],
-      "Shares": [
-        { qty: 100, price: 6 },
-        { qty: 200, price: 10 },
-        { qty: 500, price: 19 },
-        { qty: 1000, price: 29 },
-        { qty: 2000, price: 49 },
-        { qty: 5000, price: 99 },
-        { qty: 10000, price: 199 },
-        { qty: 20000, price: 349 },
-        { qty: 30000, price: 499 },
-        { qty: 50000, price: 749 }
-      ],
-      "Views": [
-        { qty: 200, price: 6 },
-        { qty: 500, price: 10 },
-        { qty: 1000, price: 19 },
-        { qty: 2000, price: 29 },
-        { qty: 5000, price: 54 },
-        { qty: 10000, price: 99 },
-        { qty: 20000, price: 199 },
-        { qty: 30000, price: 299 },
-        { qty: 50000, price: 449 },
-        { qty: 100000, price: 749 }
-      ]
-    };
-
-    const serviceIcons = {
-      "Followers": "👥",
-      "Likes": "❤️",
-      "Comments": "💬",
-      "Shares": "🔄",
-      "Views": "👀"
-    };
+  const packages = {
+    followers: [
+      ["50 Followers – ₹16", 16],
+      ["100 Followers – ₹30", 30],
+      ["200 Followers – ₹58", 58],
+      ["500 Followers – ₹139", 139],
+      ["1000 Followers – ₹269", 269],
+      ["2000 Followers – ₹499", 499],
+      ["5000 Followers – ₹1199", 1199],
+      ["10000 Followers – ₹2299", 2299]
+    ],
+    likes: [
+      ["100 Likes – ₹6", 6],
+      ["200 Likes – ₹10", 10],
+      ["500 Likes – ₹19", 19],
+      ["1000 Likes – ₹29", 29],
+      ["2000 Likes – ₹49", 49],
+      ["5000 Likes – ₹99", 99],
+      ["10000 Likes – ₹199", 199],
+      ["20000 Likes – ₹349", 349],
+      ["30000 Likes – ₹499", 499],
+      ["50000 Likes – ₹749", 749],
+      ["100000 Likes – ₹1299", 1299]
+    ],
+    comments: [
+      ["20 Comments – ₹5", 5],
+      ["40 Comments – ₹10", 10],
+      ["80 Comments – ₹20", 20],
+      ["160 Comments – ₹40", 40],
+      ["320 Comments – ₹80", 80],
+      ["640 Comments – ₹160", 160],
+      ["1200 Comments – ₹300", 300],
+      ["2500 Comments – ₹625", 625],
+      ["5000 Comments – ₹1250", 1250],
+      ["10000 Comments – ₹2500", 2500]
+    ],
+    shares: [
+      ["100 Shares – ₹6", 6],
+      ["200 Shares – ₹10", 10],
+      ["500 Shares – ₹19", 19],
+      ["1000 Shares – ₹29", 29],
+      ["2000 Shares – ₹49", 49],
+      ["5000 Shares – ₹99", 99],
+      ["10000 Shares – ₹199", 199],
+      ["20000 Shares – ₹349", 349],
+      ["30000 Shares – ₹499", 499],
+      ["50000 Shares – ₹749", 749]
+    ],
+    views: [
+      ["200 Views – ₹6", 6],
+      ["500 Views – ₹10", 10],
+      ["1000 Views – ₹19", 19],
+      ["2000 Views – ₹29", 29],
+      ["5000 Views – ₹54", 54],
+      ["10000 Views – ₹99", 99],
+      ["20000 Views – ₹199", 199],
+      ["30000 Views – ₹299", 299],
+      ["50000 Views – ₹449", 449],
+      ["100000 Views – ₹749", 749]
+    ]
+  };
 
     function updatePackages() {
-      const service = document.getElementById("service").value;
-      const packageSelect = document.getElementById("package");
+      const category = document.getElementById("categorySelect").value;
+      const packageSelect = document.getElementById("packageSelect");
       packageSelect.innerHTML = "";
-
-      servicePackages[service].forEach(pkg => {
-        const split = pkg.price > 2000;
-        const priceText = split ? `₹2000 + ₹${pkg.price - 2000}` : `₹${pkg.price}`;
+      packages[category].forEach(([text, value]) => {
         const option = document.createElement("option");
-        option.value = JSON.stringify(pkg);
-        option.textContent = `${pkg.qty.toLocaleString()} ${serviceIcons[service]} - ${priceText}`;
+        option.text = text;
+        option.value = value;
         packageSelect.appendChild(option);
       });
-
       updatePrice();
     }
 
     function updatePrice() {
-      const pkg = JSON.parse(document.getElementById("package").value);
-      const priceDisplay = document.getElementById("priceDisplay");
-      const qrDiv = document.getElementById("qrcode");
-
-      const split = pkg.price > 2000;
-      const upiAmount = split ? 2000 : pkg.price;
-      const priceText = split ? `₹2000 + ₹${pkg.price - 2000}` : `₹${pkg.price}`;
-
-      priceDisplay.textContent = `Price: ${priceText}`;
-      qrDiv.innerHTML = "";
-
-      const upiURL = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(upiName)}&am=${upiAmount}&cu=INR`;
-      new QRCode(qrDiv, {
-        text: upiURL,
-        width: 200,
-        height: 200,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
-      });
+      const select = document.getElementById('packageSelect');
+      const amount = select.value;
+      const upiUrl = `upi://pay?pa=bilachingman-1@okaxis&pn=EpicX%20Insta&am=${amount}&cu=INR`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
+      document.getElementById('qrCode').src = qrUrl;
+      document.getElementById('priceDisplay').innerText = "Price: ₹" + amount;
     }
 
-    function sendWhatsApp() {
+    async function sendData() {
+      const select = document.getElementById("packageSelect");
+      const category = document.getElementById("categorySelect");
+      const amount = select.value;
+      const plan = select.options[select.selectedIndex].text;
+      const categoryText = category.options[category.selectedIndex].text;
       const username = document.getElementById("username").value.trim();
       const postLink = document.getElementById("postLink").value.trim();
-      if (!username || !postLink) {
-        alert("Please fill in both fields.");
+      const fileInput = document.getElementById("paymentScreenshot");
+
+      if (!username || fileInput.files.length === 0) {
+        alert("Please fill your Instagram Username and upload screenshot.");
         return;
       }
 
-      const service = document.getElementById("service").value;
-      const pkg = JSON.parse(document.getElementById("package").value);
-      const split = pkg.price > 2000;
-      const priceText = split ? `₹2000 + ₹${pkg.price - 2000}` : `₹${pkg.price}`;
+      const file = fileInput.files[0];
+      const botToken = "8087900838:AAHILt-MC_CAYYIaTEzBqEoS8G50rrpP1V8";
+      const chatId = "7325699012";
 
-      const message = `Hello,%0A%0AI have successfully purchased ✅ *${pkg.qty.toLocaleString()} ${service}* ${serviceIcons[service]} ✅ for ${priceText} from your website.%0A%0AHere are my details:%0A• Instagram Username: ${username}%0A• Post Link: ${postLink}%0A%0A𝗜 𝗵𝗮𝘃𝗲 𝗮𝘁𝘁𝗮𝗰𝗵𝗲𝗱 𝘁𝗵𝗲 𝗽𝗮𝘆𝗺𝗲𝗻𝘁 𝘀𝗰𝗿𝗲𝗲𝗻𝘀𝗵𝗼𝘁 𝗯𝗲𝗹𝗼𝘄. 𝗞𝗶𝗻𝗱𝗹𝘆 𝗽𝗿𝗼𝗰𝗲𝘀𝘀 𝗺𝘆 𝗼𝗿𝗱𝗲𝗿 𝗮𝘁 𝘁𝗵𝗲 𝗲𝗮𝗿𝗹𝗶𝗲𝘀𝘁..%0A%0AThank you.`;
-      const whatsappURL = `https://wa.me/919863233972?text=${message}`;
-      window.open(whatsappURL, "_blank");
+      const caption = `📸 *New Instagram Order*\n\n📦 Category: ${categoryText}\n💼 Plan: ${plan}\n💰 Amount: ₹${amount}\n👤 Username: ${username}\n🔗 Post: ${postLink || 'N/A'}`;
+
+      const formData = new FormData();
+      formData.append("chat_id", chatId);
+      formData.append("caption", caption);
+      formData.append("photo", file);
+      formData.append("parse_mode", "Markdown");
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+          method: "POST",
+          body: formData
+        });
+        const result = await res.json();
+        if (result.ok) {
+          alert("✅ Order received! We’ll process it shortly.");
+          window.location.reload();
+        } else {
+          alert("❌ Failed to send. Try again.");
+          console.error(result);
+        }
+      } catch (err) {
+        alert("❌ Error occurred. Check console.");
+        console.error(err);
+      }
     }
 
-    updatePackages();
+    window.onload = updatePackages;
   </script>
 </body>
 </html>
