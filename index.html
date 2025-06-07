@@ -66,16 +66,41 @@
       z-index: 1000;
       overflow-y: auto;
     }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid white;
+      background: transparent;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+    }
+    .close-btn:hover {
+      background: white;
+      color: #111;
+    }
     .sidebar a {
       display: block;
       padding: 15px 25px;
       text-decoration: none;
-      color: white;
+      color: black;
       font-weight: 600;
+      background-color: white;
+      border-radius: 8px;
+      margin: 10px 20px;
     }
     .sidebar a.active,
     .sidebar a:hover {
-      background-color: #444;
+      background-color: #ddd;
     }
     .dark-mode-toggle {
       display: flex;
@@ -84,9 +109,10 @@
       padding: 15px 25px;
       font-weight: 600;
       font-family: 'Montserrat', sans-serif;
-    }
-    .dark-mode-toggle span {
-      color: white;
+      background-color: white;
+      border-radius: 8px;
+      margin: 10px 20px;
+      color: black;
     }
     .switch {
       position: relative;
@@ -273,6 +299,7 @@
   </header>
 
   <div class="sidebar" id="sidebar" aria-label="Sidebar navigation">
+    <button class="close-btn" onclick="toggleSidebar()" aria-label="Close Sidebar">×</button>
     <div style="padding: 10px 25px 0 25px;">
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
         <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/IMG_20250601_232351.png" alt="EpicX Logo" style="height: 40px;" />
@@ -280,20 +307,36 @@
       </div>
     </div>
 
-    <a href="#" class="active" onclick="navigateTo('home')">🏠 HOME</a>
-    <a href="mlbb.html">💎 MLBB DIAMOND RECHARGE 💎</a>
-    <a href="instagram.html">🔥 INSTAGRAM BOOSTING SERVICES 🔥</a>
+    <a href="#" class="active" onclick="navigateTo('home')"><img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/IMG_20250607_162646%20(1)%20(1).png" 
+     alt="Terms Icon" 
+     style="width: 20px; height: 20px; margin-right: 8px;">HOME</a>
+    <a href="mlbb.html"><img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/IMG_20250607_163038.png" 
+     alt="Terms Icon" 
+     style="width: 20px; height: 20px; margin-right: 8px;">MLBB DIAMOND</a>
+    <a href="instagram.html"><img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/black-instagram-icon%20(1).png" 
+     alt="Terms Icon" 
+     style="width: 20px; height: 20px; margin-right: 8px;">INSTAGRAM SERVICES</a>
     <div class="dark-mode-toggle">
-      <span>🌙 Dark Mode</span>
+      <span><img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/dark-mode-icon%20(1).png" 
+     alt="Terms Icon" 
+     style="width: 20px; height: 20px; margin-right: 8px;">Dark Mode</span>
       <label class="switch">
         <input type="checkbox" id="modeToggle" onchange="toggleMode()" aria-label="Toggle dark mode" />
         <span class="slider"></span>
       </label>
     </div>
-    <a href="privacy.html">🛡️ PRIVACY POLICY</a>
-    <a href="refund.html">💸 REFUND POLICY</a>
-    <a href="terms.html">📄 TERMS & CONDITIONS</a>
-    <a href="support.html">📞 24/7 SUPPORT</a>
+    <a href="privacy.html"><img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/privacy-policy-icon%20(1).png" 
+     alt="Terms Icon" 
+     style="width: 20px; height: 20px; margin-right: 8px;">PRIVACY POLICY</a>
+    <a href="refund.html"><img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/refund.png" 
+     alt="Terms Icon" 
+     style="width: 20px; height: 20px; margin-right: 8px;">REFUND POLICY</a>
+    <a href="terms.html"><img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/terms-and-conditions-icon%20(1).png" 
+     alt="Terms Icon" 
+     style="width: 20px; height: 20px; margin-right: 8px;">TERMS & CONDITIONS</a>
+    <a href="support.html"><img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/IMG_20250607_164324.png" 
+     alt="Terms Icon" 
+     style="width: 20px; height: 20px; margin-right: 8px;">24/7 SUPPORT</a>
   </div>
 
   <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
@@ -357,35 +400,38 @@
   </footer>
 
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      const overlay = document.getElementById("overlay");
-      if (sidebar.style.left === "0px") {
-        sidebar.style.left = "-250px";
-        overlay.style.display = "none";
-      } else {
-        sidebar.style.left = "0px";
-        overlay.style.display = "block";
-      }
-    }
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
 
-    function navigateTo(section) {
-      if (section === 'home') {
-        document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
-      }
-      toggleSidebar();
+    if (sidebar.style.left === "0px") {
+      sidebar.style.left = "-250px";
+      overlay.style.display = "none";
+      document.body.style.overflow = "auto";
+    } else {
+      sidebar.style.left = "0px";
+      overlay.style.display = "block";
+      document.body.style.overflow = "hidden";
     }
+  }
 
-    function toggleMode() {
-      document.body.classList.toggle("dark-mode");
-      localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+  function navigateTo(section) {
+    if (section === 'home') {
+      document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
     }
+    toggleSidebar();
+  }
 
-    window.onload = () => {
-      const theme = localStorage.getItem("theme");
-      document.body.classList.toggle("dark-mode", theme === "dark");
-      document.getElementById("modeToggle").checked = theme === "dark";
-    };
-  </script>
+  function toggleMode() {
+    document.body.classList.toggle("dark-mode");
+    localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+  }
+
+  window.onload = () => {
+    const theme = localStorage.getItem("theme");
+    document.body.classList.toggle("dark-mode", theme === "dark");
+    document.getElementById("modeToggle").checked = theme === "dark";
+  };
+</script>
 </body>
 </html>
