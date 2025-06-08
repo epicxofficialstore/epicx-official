@@ -117,6 +117,55 @@
     button:hover {
       background-color: var(--button-bg-hover);
     }
+
+    #orderModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #orderContent {
+      background: #fff;
+      color: #000;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      position: relative;
+    }
+
+    .dark #orderContent {
+      background: #1d3b1d;
+      color: #fff;
+    }
+
+    #orderContent h2 {
+      margin-top: 0;
+      color: #00c853;
+    }
+
+    #orderContent button {
+      background-color: #00c853;
+      padding: 10px 20px;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      float: right;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    #orderContent button:hover {
+      background-color: #00a044;
+    }
   </style>
 </head>
 <body>
@@ -138,7 +187,7 @@
   <div class="instructions">
     <p>1. Scan the QR code above to pay the exact amount.</p>
     <p>2. Take a screenshot of your payment confirmation.</p>
-    <p>3. Fill your Instagram Username, Post Link  and upload a Payment screenshot below and click CONFIRM.</p>
+    <p>3. Fill your Instagram Username, Post Link and upload a Payment screenshot below and click CONFIRM.</p>
   </div>
 
   <input type="text" id="username" placeholder="Instagram Username" />
@@ -146,68 +195,27 @@
   <input type="file" id="paymentScreenshot" accept="image/*" />
   <button onclick="sendData()">CONFIRM</button>
 
+  <!-- Order Summary Modal -->
+  <div id="orderModal">
+    <div id="orderContent">
+      <h2>✅ Purchase Details</h2>
+      <p><strong>Product Info:</strong> <span id="summaryCategory"></span></p>
+      <p><strong>Purchase Item:</strong> <span id="summaryItem"></span></p>
+      <p><strong>Amount:</strong> ₹<span id="summaryAmount"></span></p>
+      <p><strong>Order Status:</strong> <span style="color: green;">Success</span></p>
+      <p><strong>Order Date:</strong> <span id="summaryDate"></span></p>
+      <button onclick="closeModal()">OK</button>
+    </div>
+  </div>
+
   <script>
-  const packages = {
-    followers: [
-      ["50 Followers – ₹16", 16],
-      ["100 Followers – ₹30", 30],
-      ["200 Followers – ₹58", 58],
-      ["500 Followers – ₹139", 139],
-      ["1000 Followers – ₹269", 269],
-      ["2000 Followers – ₹499", 499],
-      ["5000 Followers – ₹1199", 1199],
-      ["10000 Followers – ₹2299", 2299]
-    ],
-    likes: [
-      ["100 Likes – ₹6", 6],
-      ["200 Likes – ₹10", 10],
-      ["500 Likes – ₹19", 19],
-      ["1000 Likes – ₹29", 29],
-      ["2000 Likes – ₹49", 49],
-      ["5000 Likes – ₹99", 99],
-      ["10000 Likes – ₹199", 199],
-      ["20000 Likes – ₹349", 349],
-      ["30000 Likes – ₹499", 499],
-      ["50000 Likes – ₹749", 749],
-      ["100000 Likes – ₹1299", 1299]
-    ],
-    comments: [
-      ["20 Comments – ₹5", 5],
-      ["40 Comments – ₹10", 10],
-      ["80 Comments – ₹20", 20],
-      ["160 Comments – ₹40", 40],
-      ["320 Comments – ₹80", 80],
-      ["640 Comments – ₹160", 160],
-      ["1200 Comments – ₹300", 300],
-      ["2500 Comments – ₹625", 625],
-      ["5000 Comments – ₹1250", 1250],
-      ["10000 Comments – ₹2500", 2500]
-    ],
-    shares: [
-      ["100 Shares – ₹6", 6],
-      ["200 Shares – ₹10", 10],
-      ["500 Shares – ₹19", 19],
-      ["1000 Shares – ₹29", 29],
-      ["2000 Shares – ₹49", 49],
-      ["5000 Shares – ₹99", 99],
-      ["10000 Shares – ₹199", 199],
-      ["20000 Shares – ₹349", 349],
-      ["30000 Shares – ₹499", 499],
-      ["50000 Shares – ₹749", 749]
-    ],
-    views: [
-      ["200 Views – ₹6", 6],
-      ["500 Views – ₹10", 10],
-      ["1000 Views – ₹19", 19],
-      ["2000 Views – ₹29", 29],
-      ["5000 Views – ₹54", 54],
-      ["10000 Views – ₹99", 99],
-      ["20000 Views – ₹199", 199],
-      ["30000 Views – ₹299", 299],
-      ["50000 Views – ₹449", 449],
-      ["100000 Views – ₹749", 749]
-    ]
-  };
+    const packages = {
+      followers: [["50 Followers – ₹16", 16],["100 Followers – ₹30", 30],["200 Followers – ₹58", 58],["500 Followers – ₹139", 139],["1000 Followers – ₹269", 269],["2000 Followers – ₹499", 499],["5000 Followers – ₹1199", 1199],["10000 Followers – ₹2299", 2299]],
+      likes: [["100 Likes – ₹6", 6],["200 Likes – ₹10", 10],["500 Likes – ₹19", 19],["1000 Likes – ₹29", 29],["2000 Likes – ₹49", 49],["5000 Likes – ₹99", 99],["10000 Likes – ₹199", 199],["20000 Likes – ₹349", 349],["30000 Likes – ₹499", 499],["50000 Likes – ₹749", 749],["100000 Likes – ₹1299", 1299]],
+      comments: [["20 Comments – ₹5", 5],["40 Comments – ₹10", 10],["80 Comments – ₹20", 20],["160 Comments – ₹40", 40],["320 Comments – ₹80", 80],["640 Comments – ₹160", 160],["1200 Comments – ₹300", 300],["2500 Comments – ₹625", 625],["5000 Comments – ₹1250", 1250],["10000 Comments – ₹2500", 2500]],
+      shares: [["100 Shares – ₹6", 6],["200 Shares – ₹10", 10],["500 Shares – ₹19", 19],["1000 Shares – ₹29", 29],["2000 Shares – ₹49", 49],["5000 Shares – ₹99", 99],["10000 Shares – ₹199", 199],["20000 Shares – ₹349", 349],["30000 Shares – ₹499", 499],["50000 Shares – ₹749", 749]],
+      views: [["200 Views – ₹6", 6],["500 Views – ₹10", 10],["1000 Views – ₹19", 19],["2000 Views – ₹29", 29],["5000 Views – ₹54", 54],["10000 Views – ₹99", 99],["20000 Views – ₹199", 199],["30000 Views – ₹299", 299],["50000 Views – ₹449", 449],["100000 Views – ₹749", 749]]
+    };
 
     function updatePackages() {
       const category = document.getElementById("categorySelect").value;
@@ -230,6 +238,19 @@
       document.getElementById('qrCode').src = qrUrl;
       document.getElementById('priceDisplay').innerText = "Price: ₹" + amount;
     }
+
+    function closeModal() {
+  document.getElementById("orderModal").style.display = "none";
+
+  // Reset form fields
+  document.getElementById("username").value = "";
+  document.getElementById("postLink").value = "";
+  document.getElementById("paymentScreenshot").value = "";
+
+  // Reset category and packages to default
+  document.getElementById("categorySelect").selectedIndex = 0;
+  updatePackages();
+}
 
     async function sendData() {
       const select = document.getElementById("packageSelect");
@@ -265,8 +286,12 @@
         });
         const result = await res.json();
         if (result.ok) {
-          alert("✅ Order received! We’ll process it shortly.");
-          window.location.reload();
+          // Show order summary modal
+          document.getElementById("summaryCategory").textContent = categoryText;
+          document.getElementById("summaryItem").textContent = plan;
+          document.getElementById("summaryAmount").textContent = amount;
+          document.getElementById("summaryDate").textContent = new Date().toLocaleString();
+          document.getElementById("orderModal").style.display = "flex";
         } else {
           alert("❌ Failed to send. Try again.");
           console.error(result);
