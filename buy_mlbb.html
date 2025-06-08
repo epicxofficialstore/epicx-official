@@ -107,8 +107,6 @@
     button:hover {
       background-color: var(--button-bg-hover);
     }
-
-    /* Modal Styles */
     #orderModal {
       display: none;
       position: fixed;
@@ -188,6 +186,8 @@
       <p><strong>Product Info:</strong> <span id="summaryCategory"></span></p>
       <p><strong>Purchase Item:</strong> <span id="summaryItem"></span></p>
       <p><strong>Amount:</strong> ₹<span id="summaryAmount"></span></p>
+      <p><strong>MLBB ID:</strong> <span id="summaryMlbbId"></span></p>
+      <p><strong>Zone ID:</strong> <span id="summaryZoneId"></span></p>
       <p><strong>Order Status:</strong> <span style="color: green;">Success</span></p>
       <p><strong>Order Date:</strong> <span id="summaryDate"></span></p>
       <button onclick="closeModal()">OK</button>
@@ -301,6 +301,8 @@
           document.getElementById("summaryCategory").innerText = categoryText;
           document.getElementById("summaryItem").innerText = plan;
           document.getElementById("summaryAmount").innerText = amount;
+          document.getElementById("summaryMlbbId").innerText = mlbbId;
+          document.getElementById("summaryZoneId").innerText = zoneId;
           document.getElementById("summaryDate").innerText = new Date().toLocaleString();
           document.getElementById("orderModal").style.display = "flex";
         } else {
