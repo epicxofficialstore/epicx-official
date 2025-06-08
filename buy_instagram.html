@@ -202,6 +202,8 @@
       <p><strong>Product Info:</strong> <span id="summaryCategory"></span></p>
       <p><strong>Purchase Item:</strong> <span id="summaryItem"></span></p>
       <p><strong>Amount:</strong> ₹<span id="summaryAmount"></span></p>
+      <p><strong>Username:</strong> <span id="summaryUsername"></span></p>
+      <p><strong>Post Link:</strong> <span id="summaryPost"></span></p>
       <p><strong>Order Status:</strong> <span style="color: green;">Success</span></p>
       <p><strong>Order Date:</strong> <span id="summaryDate"></span></p>
       <button onclick="closeModal()">OK</button>
@@ -232,25 +234,35 @@
 
     function updatePrice() {
       const select = document.getElementById('packageSelect');
-      const amount = select.value;
-      const upiUrl = `upi://pay?pa=bilachingman-1@okaxis&pn=EpicX%20Insta&am=${amount}&cu=INR`;
+      const amount = parseInt(select.value);
+      const upiLimit = 2000;
+
+      let upiAmount = amount;
+      let extraAmount = 0;
+
+      if (amount > upiLimit) {
+        upiAmount = upiLimit;
+        extraAmount = amount - upiLimit;
+      }
+
+      const upiUrl = `upi://pay?pa=bilachingman-1@okaxis&pn=EpicX%20Insta&am=${upiAmount}&cu=INR`;
       const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
       document.getElementById('qrCode').src = qrUrl;
-      document.getElementById('priceDisplay').innerText = "Price: ₹" + amount;
+
+      const priceText = extraAmount > 0
+        ? `Price: ₹${upiAmount} + ₹${extraAmount}`
+        : `Price: ₹${amount}`;
+      document.getElementById('priceDisplay').innerText = priceText;
     }
 
     function closeModal() {
-  document.getElementById("orderModal").style.display = "none";
-
-  // Reset form fields
-  document.getElementById("username").value = "";
-  document.getElementById("postLink").value = "";
-  document.getElementById("paymentScreenshot").value = "";
-
-  // Reset category and packages to default
-  document.getElementById("categorySelect").selectedIndex = 0;
-  updatePackages();
-}
+      document.getElementById("orderModal").style.display = "none";
+      document.getElementById("username").value = "";
+      document.getElementById("postLink").value = "";
+      document.getElementById("paymentScreenshot").value = "";
+      document.getElementById("categorySelect").selectedIndex = 0;
+      updatePackages();
+    }
 
     async function sendData() {
       const select = document.getElementById("packageSelect");
@@ -286,19 +298,18 @@
         });
         const result = await res.json();
         if (result.ok) {
-          // Show order summary modal
           document.getElementById("summaryCategory").textContent = categoryText;
           document.getElementById("summaryItem").textContent = plan;
           document.getElementById("summaryAmount").textContent = amount;
+          document.getElementById("summaryUsername").textContent = username;
+          document.getElementById("summaryPost").textContent = postLink || "N/A";
           document.getElementById("summaryDate").textContent = new Date().toLocaleString();
           document.getElementById("orderModal").style.display = "flex";
         } else {
           alert("❌ Failed to send. Try again.");
-          console.error(result);
         }
       } catch (err) {
         alert("❌ Error occurred. Check console.");
-        console.error(err);
       }
     }
 
