@@ -107,6 +107,51 @@
     button:hover {
       background-color: var(--button-bg-hover);
     }
+
+    /* Modal Styles */
+    #orderModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+    #orderContent {
+      background: #fff;
+      color: #000;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      position: relative;
+    }
+    .dark #orderContent {
+      background: #1d3b1d;
+      color: #fff;
+    }
+    #orderContent h2 {
+      margin-top: 0;
+      color: #00c853;
+    }
+    #orderContent button {
+      background-color: #00c853;
+      padding: 10px 20px;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      float: right;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    #orderContent button:hover {
+      background-color: #00a044;
+    }
   </style>
 </head>
 <body>
@@ -135,6 +180,19 @@
   <input type="text" id="zoneId" placeholder="Enter your Zone ID" />
   <input type="file" id="paymentScreenshot" accept="image/*" />
   <button onclick="sendData()">CONFIRM</button>
+
+  <!-- Modal for Order Summary -->
+  <div id="orderModal">
+    <div id="orderContent">
+      <h2>✅ Purchase Details</h2>
+      <p><strong>Product Info:</strong> <span id="summaryCategory"></span></p>
+      <p><strong>Purchase Item:</strong> <span id="summaryItem"></span></p>
+      <p><strong>Amount:</strong> ₹<span id="summaryAmount"></span></p>
+      <p><strong>Order Status:</strong> <span style="color: green;">Success</span></p>
+      <p><strong>Order Date:</strong> <span id="summaryDate"></span></p>
+      <button onclick="closeModal()">OK</button>
+    </div>
+  </div>
 
   <script>
     const packages = {
@@ -222,7 +280,6 @@
       }
 
       const file = fileInput.files[0];
-
       const botToken = "8087900838:AAHILt-MC_CAYYIaTEzBqEoS8G50rrpP1V8";
       const chatId = "7325699012";
 
@@ -241,8 +298,11 @@
         });
         const result = await res.json();
         if (result.ok) {
-          alert("✅ Order received! We'll process it shortly.");
-          window.location.reload();
+          document.getElementById("summaryCategory").innerText = categoryText;
+          document.getElementById("summaryItem").innerText = plan;
+          document.getElementById("summaryAmount").innerText = amount;
+          document.getElementById("summaryDate").innerText = new Date().toLocaleString();
+          document.getElementById("orderModal").style.display = "flex";
         } else {
           alert("❌ Failed to send. Please try again.");
           console.error(result);
@@ -251,6 +311,13 @@
         alert("❌ Error occurred. Check console.");
         console.error(error);
       }
+    }
+
+    function closeModal() {
+      document.getElementById("orderModal").style.display = "none";
+      document.getElementById("mlbbId").value = "";
+      document.getElementById("zoneId").value = "";
+      document.getElementById("paymentScreenshot").value = "";
     }
 
     window.onload = updatePackages;
