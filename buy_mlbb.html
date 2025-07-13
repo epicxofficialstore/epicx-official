@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Instagram Services - EpicX</title>
+  <title>Buy MLBB Diamonds - EpicX</title>
   <script>
     (function () {
       const theme = localStorage.getItem('theme');
@@ -208,11 +208,11 @@
   <div class="instructions" style="margin-top: 20px;">
     <p>1. Tap on any payment method above to pay the exact amount.</p>
     <p>2. Take a screenshot of your payment confirmation.</p>
-    <p>3. Fill your Instagram Username, Post Link and upload a screenshot below.</p>
+    <p>3. Fill your MLBB ID, Zone ID and upload a screenshot below.</p>
   </div>
 
-  <input type="text" id="username" placeholder="Instagram Username" />
-  <input type="text" id="postLink" placeholder="Post Link (optional)" />
+  <input type="text" id="username" placeholder="MLBB ID" />
+  <input type="text" id="postLink" placeholder="Zone ID" />
   <input type="file" id="paymentScreenshot" accept="image/*" />
   <button onclick="sendData()">CONFIRM</button>
 
@@ -223,8 +223,8 @@
       <p><strong>Product Info:</strong> <span id="summaryCategory"></span></p>
       <p><strong>Purchase Item:</strong> <span id="summaryItem"></span></p>
       <p><strong>Amount:</strong> ₹<span id="summaryAmount"></span></p>
-      <p><strong>Username:</strong> <span id="summaryUsername"></span></p>
-      <p><strong>Post Link:</strong> <span id="summaryPost"></span></p>
+      <p><strong>MLBB ID:</strong> <span id="summaryUsername"></span></p>
+      <p><strong>Zone ID:</strong> <span id="summaryPost"></span></p>
       <p><strong>Order Status:</strong> <span style="color: green;">Success</span></p>
       <p><strong>Order Date:</strong> <span id="summaryDate"></span></p>
       <button onclick="closeModal()">OK</button>
@@ -273,7 +273,7 @@
       const fileInput = document.getElementById("paymentScreenshot");
 
       if (!username || fileInput.files.length === 0) {
-        alert("Please fill your Instagram Username and upload screenshot.");
+        alert("Please fill your MLBB ID and upload screenshot.");
         return;
       }
 
@@ -281,7 +281,7 @@
       const botToken = "8087900838:AAHILt-MC_CAYYIaTEzBqEoS8G50rrpP1V8";
       const chatId = "7325699012";
 
-      const caption = `📸 *New Instagram Order*\n\n📦 Plan: ${plan}\n💰 Amount: ₹${price}\n👤 Username: ${username}\n🔗 Post: ${postLink || 'N/A'}`;
+      const caption = `📸 *New MLBB Order*\n\n📦 Plan: ${plan}\n💰 Amount: ₹${price}\n🆔 MLBB ID: ${username}\n🌐 Zone ID: ${postLink || 'N/A'}`;
 
       const formData = new FormData();
       formData.append("chat_id", chatId);
