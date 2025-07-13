@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Buy MLBB Diamonds - EpicX</title>
+  <title>Instagram Services - EpicX</title>
   <script>
     (function () {
       const theme = localStorage.getItem('theme');
@@ -25,9 +25,11 @@
       --button-bg: #00c853;
       --button-bg-hover: #00b347;
     }
+
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
       padding: 20px;
@@ -37,25 +39,30 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      transition: background-color 0.3s, color 0.3s;
       min-height: 100vh;
+      transition: background-color 0.3s, color 0.3s;
     }
+
     .dark body {
       background-color: var(--bg-dark);
       color: var(--text-dark);
     }
+
     h1 {
-      color: var(--highlight);
+      color: #00cfff;
+      font-size: 24px;
       text-align: center;
-      font-size: 28px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
-    h2, h3 {
+
+    .summary-info {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 20px;
       text-align: center;
-      color: var(--accent);
-      margin: 10px 0;
     }
-    select, input {
+
+    input {
       width: 100%;
       max-width: 320px;
       padding: 10px;
@@ -65,32 +72,14 @@
       background-color: #f9f9f9;
       color: #000;
       font-size: 16px;
-      transition: all 0.3s ease;
     }
-    .dark select, .dark input {
+
+    .dark input {
       background-color: #1e1e1e;
       color: #fff;
       border: 1px solid #555;
     }
-    #qrCode {
-      width: 200px;
-      height: 200px;
-      margin: 20px 0;
-      border-radius: 10px;
-      background: white;
-      padding: 10px;
-    }
-    .dark #qrCode {
-      background: #fff;
-    }
-    .instructions {
-      max-width: 400px;
-      text-align: center;
-      font-size: 15px;
-      line-height: 1.5;
-      margin-bottom: 15px;
-      color: inherit;
-    }
+
     button {
       width: 100%;
       max-width: 320px;
@@ -104,9 +93,37 @@
       margin-top: 10px;
       transition: background-color 0.3s;
     }
+
     button:hover {
       background-color: var(--button-bg-hover);
     }
+
+    .payment-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .dark .payment-box {
+      background: #fff;
+    }
+
+    .payment-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      padding: 0 20px;
+    }
+
     #orderModal {
       display: none;
       position: fixed;
@@ -118,6 +135,7 @@
       justify-content: center;
       align-items: center;
     }
+
     #orderContent {
       background: #fff;
       color: #000;
@@ -128,14 +146,17 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.4);
       position: relative;
     }
+
     .dark #orderContent {
       background: #1d3b1d;
       color: #fff;
     }
+
     #orderContent h2 {
       margin-top: 0;
       color: #00c853;
     }
+
     #orderContent button {
       background-color: #00c853;
       padding: 10px 20px;
@@ -147,47 +168,63 @@
       margin-top: 20px;
       cursor: pointer;
     }
+
     #orderContent button:hover {
       background-color: #00a044;
     }
   </style>
 </head>
 <body>
+  <h1>Choose The Payment Methods</h1>
+  <p id="selectedInfo" class="summary-info"></p>
 
-  <h1>Buy MLBB Diamonds</h1>
-  <h3 id="priceDisplay">Price: ₹135</h3>
+  <div class="payment-section">
+    <a href="#" id="upiLink" target="_blank" class="payment-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/main/upi.692cbaa1d8aff635a377.png" alt="UPI" style="height: 45px;" />
+      <span id="upiPrice" style="color: #000; font-weight: bold;">₹0</span>
+    </a>
 
-  <select id="categorySelect" onchange="updatePackages()">
-    <option value="weekly">💎 𝗪𝗘𝗘𝗞𝗟𝗬 𝗣𝗔𝗦𝗦</option>
-    <option value="first">💎 𝗙𝗶𝗿𝘀𝘁 𝗧𝗼𝗽-𝗨𝗽</option>
-    <option value="small">💎 𝗦𝗺𝗮𝗹𝗹 𝗣𝗮𝗰𝗸</option>
-    <option value="large">💎 𝗟𝗮𝗿𝗴𝗲 𝗣𝗮𝗰𝗸</option>
-  </select>
+    <a href="#" id="paytmLink" target="_blank" class="payment-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/main/paytm.9a79eb7fd3b4cdb56806.png" alt="Paytm" style="height: 45px;" />
+      <span id="paytmPrice" style="color: #000; font-weight: bold;">₹0</span>
+    </a>
 
-  <select id="packageSelect" onchange="updatePrice()"></select>
+    <a href="#" id="gpayLink" target="_blank" class="payment-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/main/gpay.d5b2af443eda82127eeb.png" alt="GPay" style="height: 45px;" />
+      <span id="gpayPrice" style="color: #000; font-weight: bold;">₹0</span>
+    </a>
 
-  <img id="qrCode" src="" alt="QR Code" />
+    <a href="#" id="phonepeLink" target="_blank" class="payment-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/main/phonepe.8cc814173179468b5a21.png" alt="PhonePe" style="height: 45px;" />
+      <span id="phonepePrice" style="color: #000; font-weight: bold;">₹0</span>
+    </a>
 
-  <div class="instructions">
-    <p>1. Scan the QR code above to pay the exact amount.</p>
-    <p>2. Take a screenshot of your payment confirmation.</p>
-    <p>3. Fill your MLBB ID, ZONE ID and upload a Payment screenshot below and click CONFIRM.</p>
+    <a href="#" id="fampayLink" target="_blank" class="payment-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/main/fampay.a81ddb56196c753a7903.png" alt="Fampay" style="height: 45px;" />
+      <span id="fampayPrice" style="color: #000; font-weight: bold;">₹0</span>
+    </a>
   </div>
 
-  <input type="text" id="mlbbId" placeholder="Enter your MLBB ID" />
-  <input type="text" id="zoneId" placeholder="Enter your Zone ID" />
+  <div class="instructions" style="margin-top: 20px;">
+    <p>1. Tap on any payment method above to pay the exact amount.</p>
+    <p>2. Take a screenshot of your payment confirmation.</p>
+    <p>3. Fill your Instagram Username, Post Link and upload a screenshot below.</p>
+  </div>
+
+  <input type="text" id="username" placeholder="Instagram Username" />
+  <input type="text" id="postLink" placeholder="Post Link (optional)" />
   <input type="file" id="paymentScreenshot" accept="image/*" />
   <button onclick="sendData()">CONFIRM</button>
 
-  <!-- Modal for Order Summary -->
+  <!-- Order Summary Modal -->
   <div id="orderModal">
     <div id="orderContent">
       <h2>✅ Purchase Details</h2>
       <p><strong>Product Info:</strong> <span id="summaryCategory"></span></p>
       <p><strong>Purchase Item:</strong> <span id="summaryItem"></span></p>
       <p><strong>Amount:</strong> ₹<span id="summaryAmount"></span></p>
-      <p><strong>MLBB ID:</strong> <span id="summaryMlbbId"></span></p>
-      <p><strong>Zone ID:</strong> <span id="summaryZoneId"></span></p>
+      <p><strong>Username:</strong> <span id="summaryUsername"></span></p>
+      <p><strong>Post Link:</strong> <span id="summaryPost"></span></p>
       <p><strong>Order Status:</strong> <span style="color: green;">Success</span></p>
       <p><strong>Order Date:</strong> <span id="summaryDate"></span></p>
       <button onclick="closeModal()">OK</button>
@@ -195,87 +232,48 @@
   </div>
 
   <script>
-    const packages = {
-      weekly: [
-        ["1x Weekly Pass – ₹135", 135],
-        ["2x Weekly Pass – ₹260", 260],
-        ["3x Weekly Pass – ₹385", 385],
-        ["4x Weekly Pass – ₹510", 510],
-        ["5x Weekly Pass – ₹635", 635],
-        ["1x Weekly Pass+172💎 – ₹348", 348],
-        ["2X Weekly Pass+706💎 – ₹1198", 1198],
-        ["Twilight Pass – ₹688", 688]
-      ],
-      first: [
-        ["100 💎(50+50) – ₹75", 75],
-        ["300 💎(150+150) – ₹215", 215],
-        ["500 💎(250+250) – ₹335", 335],
-        ["1000 💎(500+500) – ₹660", 660]
-      ],
-      small: [
-        ["3💎 – ₹10", 10],
-        ["5💎 – ₹15", 15],
-        ["11💎 – ₹25", 25],
-        ["14💎 – ₹30", 30],
-        ["22💎 – ₹45", 45],
-        ["28💎 – ₹55", 55],
-        ["42💎 – ₹75", 75]
-      ],
-      large: [
-        ["55💎 – ₹80", 80],
-        ["86💎 – ₹115", 115],
-        ["110💎 – ₹150", 150],
-        ["165💎 – ₹215", 215],
-        ["172💎 – ₹220", 220],
-        ["257💎 – ₹325", 325],
-        ["275💎 – ₹335", 335],
-        ["343💎 – ₹430", 430],
-        ["429💎 – ₹535", 535],
-        ["514💎 – ₹630", 630],
-        ["565💎 – ₹675", 675],
-        ["706💎 – ₹855", 855],
-        ["963💎 – ₹1190", 1190],
-        ["1049💎 – ₹1290", 1290],
-        ["1130💎 – ₹1370", 1370],
-        ["1220💎 – ₹1475", 1475],
-        ["1412💎 – ₹1750", 1750]
-      ]
-    };
-
-    function updatePackages() {
-      const category = document.getElementById("categorySelect").value;
-      const packageSelect = document.getElementById("packageSelect");
-      packageSelect.innerHTML = "";
-      packages[category].forEach(([text, value]) => {
-        const option = document.createElement("option");
-        option.text = text;
-        option.value = value;
-        packageSelect.appendChild(option);
-      });
-      updatePrice();
+    function getQueryParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        plan: params.get("plan") || "1x Weekly Pass - ₹135"
+      };
     }
 
-    function updatePrice() {
-      const select = document.getElementById('packageSelect');
-      const amount = select.value;
-      const upiUrl = `upi://pay?pa=bilachingman@oksbi&pn=EpicX%20Store&am=${amount}&cu=INR`;
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
-      document.getElementById('qrCode').src = qrUrl;
-      document.getElementById('priceDisplay').innerText = "Price: ₹" + amount;
+    function extractPriceFromPlan(plan) {
+      const match = plan.match(/₹(\d+)/);
+      return match ? match[1] : "0";
+    }
+
+    function updateDisplayFromParams() {
+      const { plan } = getQueryParams();
+      const price = extractPriceFromPlan(plan);
+
+      document.getElementById("selectedInfo").innerText = plan;
+
+      const upiURL = `upi://pay?pa=bilachingman@oksbi&pn=EpicX&am=${price}&cu=INR`;
+      const logoIds = ["upi", "paytm", "gpay", "phonepe", "fampay"];
+      logoIds.forEach(id => {
+        document.getElementById(`${id}Link`).href = upiURL;
+        document.getElementById(`${id}Price`).innerText = `₹${price}`;
+      });
+    }
+
+    function closeModal() {
+      document.getElementById("orderModal").style.display = "none";
+      document.getElementById("username").value = "";
+      document.getElementById("postLink").value = "";
+      document.getElementById("paymentScreenshot").value = "";
     }
 
     async function sendData() {
-      const select = document.getElementById("packageSelect");
-      const category = document.getElementById("categorySelect");
-      const amount = select.value;
-      const plan = select.options[select.selectedIndex].text;
-      const categoryText = category.options[category.selectedIndex].text.replace("💎 ", "");
-      const mlbbId = document.getElementById("mlbbId").value.trim();
-      const zoneId = document.getElementById("zoneId").value.trim();
+      const { plan } = getQueryParams();
+      const price = extractPriceFromPlan(plan);
+      const username = document.getElementById("username").value.trim();
+      const postLink = document.getElementById("postLink").value.trim();
       const fileInput = document.getElementById("paymentScreenshot");
 
-      if (!mlbbId || !zoneId || fileInput.files.length === 0) {
-        alert("Please fill MLBB ID, Zone ID and upload screenshot.");
+      if (!username || fileInput.files.length === 0) {
+        alert("Please fill your Instagram Username and upload screenshot.");
         return;
       }
 
@@ -283,7 +281,7 @@
       const botToken = "8087900838:AAHILt-MC_CAYYIaTEzBqEoS8G50rrpP1V8";
       const chatId = "7325699012";
 
-      const caption = `🛒 *New MLBB Purchase*\n\n📦 Category: ${categoryText}\n💎 Plan: ${plan} (₹${amount})\n🆔 MLBB ID: ${mlbbId}\n🌐 Zone ID: ${zoneId}`;
+      const caption = `📸 *New Instagram Order*\n\n📦 Plan: ${plan}\n💰 Amount: ₹${price}\n👤 Username: ${username}\n🔗 Post: ${postLink || 'N/A'}`;
 
       const formData = new FormData();
       formData.append("chat_id", chatId);
@@ -298,31 +296,22 @@
         });
         const result = await res.json();
         if (result.ok) {
-          document.getElementById("summaryCategory").innerText = categoryText;
-          document.getElementById("summaryItem").innerText = plan;
-          document.getElementById("summaryAmount").innerText = amount;
-          document.getElementById("summaryMlbbId").innerText = mlbbId;
-          document.getElementById("summaryZoneId").innerText = zoneId;
-          document.getElementById("summaryDate").innerText = new Date().toLocaleString();
+          document.getElementById("summaryCategory").textContent = plan.split("-")[0].trim();
+          document.getElementById("summaryItem").textContent = plan;
+          document.getElementById("summaryAmount").textContent = price;
+          document.getElementById("summaryUsername").textContent = username;
+          document.getElementById("summaryPost").textContent = postLink || "N/A";
+          document.getElementById("summaryDate").textContent = new Date().toLocaleString();
           document.getElementById("orderModal").style.display = "flex";
         } else {
-          alert("❌ Failed to send. Please try again.");
-          console.error(result);
+          alert("❌ Failed to send. Try again.");
         }
-      } catch (error) {
+      } catch (err) {
         alert("❌ Error occurred. Check console.");
-        console.error(error);
       }
     }
 
-    function closeModal() {
-      document.getElementById("orderModal").style.display = "none";
-      document.getElementById("mlbbId").value = "";
-      document.getElementById("zoneId").value = "";
-      document.getElementById("paymentScreenshot").value = "";
-    }
-
-    window.onload = updatePackages;
+    window.onload = updateDisplayFromParams;
   </script>
 </body>
 </html>
