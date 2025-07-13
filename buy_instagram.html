@@ -49,19 +49,20 @@
     }
 
     h1 {
-      color: var(--highlight);
-      font-size: 28px;
+      color: #00cfff;
+      font-size: 24px;
       text-align: center;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
 
-    h3 {
-      color: var(--accent);
+    .summary-info {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 20px;
       text-align: center;
-      margin: 10px 0;
     }
 
-    select, input {
+    input {
       width: 100%;
       max-width: 320px;
       padding: 10px;
@@ -73,31 +74,10 @@
       font-size: 16px;
     }
 
-    .dark select, .dark input {
+    .dark input {
       background-color: #1e1e1e;
       color: #fff;
       border: 1px solid #555;
-    }
-
-    #qrCode {
-      width: 200px;
-      height: 200px;
-      margin: 20px 0;
-      border-radius: 10px;
-      background: white;
-      padding: 10px;
-    }
-
-    .dark #qrCode {
-      background: #fff;
-    }
-
-    .instructions {
-      max-width: 400px;
-      text-align: center;
-      font-size: 15px;
-      line-height: 1.5;
-      margin-bottom: 15px;
     }
 
     button {
@@ -116,6 +96,32 @@
 
     button:hover {
       background-color: var(--button-bg-hover);
+    }
+
+    .payment-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .dark .payment-box {
+      background: #fff;
+    }
+
+    .payment-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      padding: 0 20px;
     }
 
     #orderModal {
@@ -169,25 +175,41 @@
   </style>
 </head>
 <body>
-  <h1>Buy Instagram Services</h1>
-  <h3 id="priceDisplay">Price: ₹30</h3>
+  <h1>Choose The Payment Methods</h1>
+  <p id="selectedInfo" class="summary-info"></p>
 
-  <select id="categorySelect" onchange="updatePackages()">
-    <option value="followers">👥 Followers</option>
-    <option value="likes">❤️ Likes</option>
-    <option value="comments">💬 Comments</option>
-    <option value="shares">🔄 Shares</option>
-    <option value="views">👀 Views</option>
-  </select>
+  <div class="payment-section">
+    <!-- Payment Logos -->
+    <a href="#" id="upiLink" target="_blank" class="payment-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/main/upi.692cbaa1d8aff635a377.png" alt="UPI" style="height: 45px;" />
+      <span id="upiPrice" style="color: #000; font-weight: bold;">₹0</span>
+    </a>
 
-  <select id="packageSelect" onchange="updatePrice()"></select>
+    <a href="#" id="paytmLink" target="_blank" class="payment-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/main/paytm.9a79eb7fd3b4cdb56806.png" alt="Paytm" style="height: 45px;" />
+      <span id="paytmPrice" style="color: #000; font-weight: bold;">₹0</span>
+    </a>
 
-  <img id="qrCode" src="" alt="QR Code" />
+    <a href="#" id="gpayLink" target="_blank" class="payment-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/main/gpay.d5b2af443eda82127eeb.png" alt="GPay" style="height: 45px;" />
+      <span id="gpayPrice" style="color: #000; font-weight: bold;">₹0</span>
+    </a>
 
-  <div class="instructions">
-    <p>1. Scan the QR code above to pay the exact amount.</p>
+    <a href="#" id="phonepeLink" target="_blank" class="payment-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/main/phonepe.8cc814173179468b5a21.png" alt="PhonePe" style="height: 45px;" />
+      <span id="phonepePrice" style="color: #000; font-weight: bold;">₹0</span>
+    </a>
+
+    <a href="#" id="fampayLink" target="_blank" class="payment-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/main/fampay.a81ddb56196c753a7903.png" alt="Fampay" style="height: 45px;" />
+      <span id="fampayPrice" style="color: #000; font-weight: bold;">₹0</span>
+    </a>
+  </div>
+
+  <div class="instructions" style="margin-top: 20px;">
+    <p>1. Tap on any payment method above to pay the exact amount.</p>
     <p>2. Take a screenshot of your payment confirmation.</p>
-    <p>3. Fill your Instagram Username, Post Link and upload a Payment screenshot below and click CONFIRM.</p>
+    <p>3. Fill your Instagram Username, Post Link and upload a screenshot below.</p>
   </div>
 
   <input type="text" id="username" placeholder="Instagram Username" />
@@ -211,48 +233,26 @@
   </div>
 
   <script>
-    const packages = {
-      followers: [["50 Followers – ₹16", 16],["100 Followers – ₹30", 30],["200 Followers – ₹58", 58],["500 Followers – ₹139", 139],["1000 Followers – ₹269", 269],["2000 Followers – ₹499", 499],["5000 Followers – ₹1199", 1199],["10000 Followers – ₹2299", 2299]],
-      likes: [["100 Likes – ₹6", 6],["200 Likes – ₹10", 10],["500 Likes – ₹19", 19],["1000 Likes – ₹29", 29],["2000 Likes – ₹49", 49],["5000 Likes – ₹99", 99],["10000 Likes – ₹199", 199],["20000 Likes – ₹349", 349],["30000 Likes – ₹499", 499],["50000 Likes – ₹749", 749],["100000 Likes – ₹1299", 1299]],
-      comments: [["20 Comments – ₹5", 5],["40 Comments – ₹10", 10],["80 Comments – ₹20", 20],["160 Comments – ₹40", 40],["320 Comments – ₹80", 80],["640 Comments – ₹160", 160],["1200 Comments – ₹300", 300],["2500 Comments – ₹625", 625],["5000 Comments – ₹1250", 1250],["10000 Comments – ₹2500", 2500]],
-      shares: [["100 Shares – ₹6", 6],["200 Shares – ₹10", 10],["500 Shares – ₹19", 19],["1000 Shares – ₹29", 29],["2000 Shares – ₹49", 49],["5000 Shares – ₹99", 99],["10000 Shares – ₹199", 199],["20000 Shares – ₹349", 349],["30000 Shares – ₹499", 499],["50000 Shares – ₹749", 749]],
-      views: [["200 Views – ₹6", 6],["500 Views – ₹10", 10],["1000 Views – ₹19", 19],["2000 Views – ₹29", 29],["5000 Views – ₹54", 54],["10000 Views – ₹99", 99],["20000 Views – ₹199", 199],["30000 Views – ₹299", 299],["50000 Views – ₹449", 449],["100000 Views – ₹749", 749]]
-    };
-
-    function updatePackages() {
-      const category = document.getElementById("categorySelect").value;
-      const packageSelect = document.getElementById("packageSelect");
-      packageSelect.innerHTML = "";
-      packages[category].forEach(([text, value]) => {
-        const option = document.createElement("option");
-        option.text = text;
-        option.value = value;
-        packageSelect.appendChild(option);
-      });
-      updatePrice();
+    function getQueryParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        service: params.get("service") || "Followers",
+        qty: params.get("qty") || "0",
+        price: params.get("price") || "0"
+      };
     }
 
-    function updatePrice() {
-      const select = document.getElementById('packageSelect');
-      const amount = parseInt(select.value);
-      const upiLimit = 2000;
+    function updateDisplayFromParams() {
+      const { service, qty, price } = getQueryParams();
+      const upiURL = `upi://pay?pa=bilachingman@oksbi&pn=EpicX&am=${price}&cu=INR`;
 
-      let upiAmount = amount;
-      let extraAmount = 0;
+      document.getElementById("selectedInfo").innerText = `${qty} ${service} – ₹${price}`;
 
-      if (amount > upiLimit) {
-        upiAmount = upiLimit;
-        extraAmount = amount - upiLimit;
-      }
-
-      const upiUrl = `upi://pay?pa=bilachingman-1@okaxis&pn=EpicX%20Insta&am=${upiAmount}&cu=INR`;
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
-      document.getElementById('qrCode').src = qrUrl;
-
-      const priceText = extraAmount > 0
-        ? `Price: ₹${upiAmount} + ₹${extraAmount}`
-        : `Price: ₹${amount}`;
-      document.getElementById('priceDisplay').innerText = priceText;
+      const logoIds = ["upi", "paytm", "gpay", "phonepe", "fampay"];
+      logoIds.forEach(id => {
+        document.getElementById(`${id}Link`).href = upiURL;
+        document.getElementById(`${id}Price`).innerText = `₹${price}`;
+      });
     }
 
     function closeModal() {
@@ -260,16 +260,11 @@
       document.getElementById("username").value = "";
       document.getElementById("postLink").value = "";
       document.getElementById("paymentScreenshot").value = "";
-      document.getElementById("categorySelect").selectedIndex = 0;
-      updatePackages();
     }
 
     async function sendData() {
-      const select = document.getElementById("packageSelect");
-      const category = document.getElementById("categorySelect");
-      const amount = select.value;
-      const plan = select.options[select.selectedIndex].text;
-      const categoryText = category.options[category.selectedIndex].text;
+      const { service, qty, price } = getQueryParams();
+      const plan = `${qty} ${service} – ₹${price}`;
       const username = document.getElementById("username").value.trim();
       const postLink = document.getElementById("postLink").value.trim();
       const fileInput = document.getElementById("paymentScreenshot");
@@ -283,7 +278,7 @@
       const botToken = "8087900838:AAHILt-MC_CAYYIaTEzBqEoS8G50rrpP1V8";
       const chatId = "7325699012";
 
-      const caption = `📸 *New Instagram Order*\n\n📦 Category: ${categoryText}\n💼 Plan: ${plan}\n💰 Amount: ₹${amount}\n👤 Username: ${username}\n🔗 Post: ${postLink || 'N/A'}`;
+      const caption = `📸 *New Instagram Order*\n\n📦 Category: ${service}\n💼 Plan: ${plan}\n💰 Amount: ₹${price}\n👤 Username: ${username}\n🔗 Post: ${postLink || 'N/A'}`;
 
       const formData = new FormData();
       formData.append("chat_id", chatId);
@@ -298,9 +293,9 @@
         });
         const result = await res.json();
         if (result.ok) {
-          document.getElementById("summaryCategory").textContent = categoryText;
+          document.getElementById("summaryCategory").textContent = service;
           document.getElementById("summaryItem").textContent = plan;
-          document.getElementById("summaryAmount").textContent = amount;
+          document.getElementById("summaryAmount").textContent = price;
           document.getElementById("summaryUsername").textContent = username;
           document.getElementById("summaryPost").textContent = postLink || "N/A";
           document.getElementById("summaryDate").textContent = new Date().toLocaleString();
@@ -313,7 +308,7 @@
       }
     }
 
-    window.onload = updatePackages;
+    window.onload = updateDisplayFromParams;
   </script>
 </body>
 </html>
