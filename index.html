@@ -5,6 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>EpicX Store</title>
   <style>
+.auto-scroll-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  margin-top: 20px;
+  background-color: transparent;
+}
+
+.auto-scroll-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left-text 15s linear infinite;
+}
+
+.scroll-text-inner {
+  display: inline-block;
+}
+
+.scroll-text-inner span {
+  margin-right: 80px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', sans-serif;
+  color: #00d0ff;
+}
+
+@keyframes scroll-left-text {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
     :root {
       --bg-color: #fff;
@@ -84,6 +114,21 @@
       justify-content: center;
       transition: 0.3s;
     }
+   .sidebar a,
+.close-btn,
+.menu {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  user-select: none;
+}
+
+.sidebar a:active,
+.close-btn:active,
+.menu:active {
+  background: none;
+  transform: none;
+  box-shadow: none;
+}
     .close-btn:hover {
       background: white;
       color: #111;
@@ -169,13 +214,13 @@
       text-align: center;
     }
     .epicx-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 10px;
-      margin-top: -10px;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  margin-top: -10px;
+}
     .epicx-header img {
       height: 150px;
       width: auto;
@@ -342,6 +387,16 @@
   <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
   <main id="main-content">
+  <div class="auto-scroll-container">
+  <div class="auto-scroll-text">
+    <div class="scroll-text-inner">
+      <span>[𝗔𝘂𝘁𝗼 𝗶𝗻𝘀𝘁𝗮𝗻𝘁 𝘁𝗼𝗽 𝘂𝗽 ⚡ 𝟮𝟰/𝟳 𝘀𝗲𝗿𝘃𝗶𝗰𝗲]</span>
+      <span>[𝗔𝘂𝘁𝗼 𝗶𝗻𝘀𝘁𝗮𝗻𝘁 𝘁𝗼𝗽 𝘂𝗽 ⚡ 𝟮𝟰/𝟳 𝘀𝗲𝗿𝘃𝗶𝗰𝗲]</span>
+      <span>[𝗔𝘂𝘁𝗼 𝗶𝗻𝘀𝘁𝗮𝗻𝘁 𝘁𝗼𝗽 𝘂𝗽 ⚡ 𝟮𝟰/𝟳 𝘀𝗲𝗿𝘃𝗶𝗰𝗲]</span>
+      <span>[𝗔𝘂𝘁𝗼 𝗶𝗻𝘀𝘁𝗮𝗻𝘁 𝘁𝗼𝗽 𝘂𝗽 ⚡ 𝟮𝟰/𝟳 𝘀𝗲𝗿𝘃𝗶𝗰𝗲]</span>
+    </div>
+  </div>
+</div>
     <div class="epicx-header">
       <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/IMG_20250601_232351.png" alt="EpicX Logo" />
       <span>EpicX</span>
@@ -355,19 +410,198 @@
       <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp Logo" />
     </a>
 
-    <div class="buttons">
-      <a href="instagram.html" class="btn">
-  <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/IMG_20250613_154110.png" alt="Instagram" style="height: 20px; vertical-align: middle; margin-right: 6px;">
-  Instagram Boosting 
-</a>
-      <a href="mlbb.html" class="btn">
-  <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/1744466955397--mb%20(1).jpg" alt="MLBB" style="height: 20px; vertical-align: middle; margin-right: 6px;">
-  Buy MLBB Diamond
-</a>
+    <style>
+  .service-row {
+    display: flex;
+    justify-content: flex-start;
+    gap: 14px;
+    padding-left: 16px;
+    margin-top: 20px;
+  }
+
+  .service-box {
+    width: 100px;
+    height: 150px;
+    border-radius: 16px;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: var(--text-color);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 1.5px solid #ddd; /* Light border for visibility in light mode */
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05); /* Soft shadow */
+    transition: none;
+  }
+
+  body.dark-mode .service-box {
+    background-color: #222;
+    border: 1.5px solid #444;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
+  }
+
+  .service-box img {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    pointer-events: none;
+  }
+
+  .service-box span {
+    margin-top: 6px;
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  .topup-btn {
+    margin-top: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #111;
+    color: #fff;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    pointer-events: none;
+  }
+
+  body.dark-mode .topup-btn {
+    background-color: #fff;
+    color: #000;
+  }
+
+  a {
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a:focus, a:active, a:hover {
+    outline: none;
+    background: none;
+  }
+</style>
+
+<div class="service-row">
+  <a href="instagram.html">
+    <div class="service-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/IMG_20250613_154110.png" alt="Instagram" />
+      <span>Instagram Boosting</span>
+      <div class="topup-btn">Top Up</div>
     </div>
+  </a>
+  <a href="mlbb.html">
+    <div class="service-box">
+      <img src="https://raw.githubusercontent.com/epicxofficialstore/Payment-logo/refs/heads/main/1744466955397--mb%20(1).jpg" alt="Mobile Legends" />
+      <span>Mobile Legends</span>
+      <div class="topup-btn">Top Up</div>
+    </div>
+  </a>
+</div>
   </main>
   
   <footer>
+    <style>
+  .how-it-works-section {
+    margin-top: 60px;
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  .how-it-works-section h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    color: #00d0ff;
+    margin-bottom: 30px;
+  }
+
+  .how-it-works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .how-box {
+    background-color: #1a1a1a;
+    border: 2px solid #00d0ff;
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    height: 180px;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .how-box-icon {
+    font-size: 30px;
+    margin-bottom: 12px;
+    color: #00d0ff;
+  }
+
+  .how-box-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .how-box-text {
+    font-size: 0.85rem;
+    color: #ccc;
+    text-align: center;
+  }
+
+  body:not(.dark-mode) .how-box {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #00d0ff;
+  }
+
+  body:not(.dark-mode) .how-box-text {
+    color: #555;
+  }
+
+  body:not(.dark-mode) .how-box-icon {
+    color: #00b3e6;
+  }
+</style>
+
+<div class="how-it-works-section">
+  <h2>HOW IT WORKS</h2>
+  <div class="how-it-works-grid">
+    <div class="how-box">
+      <div class="how-box-icon">🚚</div>
+      <div class="how-box-title">Instant Delivery</div>
+      <div class="how-box-text">Get your items instantly, 24/7.</div>
+    </div>
+    <div class="how-box">
+      <div class="how-box-icon">🔒</div>
+      <div class="how-box-title">Secure & Legit</div>
+      <div class="how-box-text">Reliable and trusted services.</div>
+    </div>
+    <div class="how-box">
+      <div class="how-box-icon">🌐</div>
+      <div class="how-box-title">Easy Payments</div>
+      <div class="how-box-text">Flexible and secure options.</div>
+    </div>
+    <div class="how-box">
+      <div class="how-box-icon">🎧</div>
+      <div class="how-box-title">24/7 Support</div>
+      <div class="how-box-text">Always here to help you.</div>
+    </div>
+  </div>
+</div>
     <p style="font-size: 1.1rem; letter-spacing: 1px; font-weight: 500;">CUSTOMER SERVICE</p>
     <h2>Reach Us At</h2>
     <div class="contact-icons">
